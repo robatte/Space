@@ -1,0 +1,61 @@
+[gd_resource type="ShaderMaterial" load_steps=13 format=3 uid="uid://bkwcllnikpck2"]
+
+[ext_resource type="Shader" path="res://Assets/Shader/test.gdshader" id="1_o83v2"]
+
+[sub_resource type="Gradient" id="Gradient_0ru83"]
+colors = PackedColorArray(0.992, 0.576, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k1v75"]
+gradient = SubResource("Gradient_0ru83")
+
+[sub_resource type="Gradient" id="Gradient_e780t"]
+offsets = PackedFloat32Array(0.720126, 0.861635, 0.90566)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0.798165, 0.798165, 0.798165, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6wxi1"]
+frequency = 0.0278
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gqaqp"]
+in_3d_space = true
+seamless = true
+color_ramp = SubResource("Gradient_e780t")
+noise = SubResource("FastNoiseLite_6wxi1")
+
+[sub_resource type="Gradient" id="Gradient_7ga8k"]
+offsets = PackedFloat32Array(0.13522, 0.650943, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.776471, 0.776471, 0.776471, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vogyt"]
+frequency = 0.0218
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4ns32"]
+in_3d_space = true
+seamless = true
+color_ramp = SubResource("Gradient_7ga8k")
+noise = SubResource("FastNoiseLite_vogyt")
+
+[sub_resource type="Gradient" id="Gradient_o7lhd"]
+offsets = PackedFloat32Array(0.374214, 0.823899, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.75, 0.75, 0.75, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7qmxv"]
+frequency = 0.0086
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2453d"]
+in_3d_space = true
+seamless = true
+color_ramp = SubResource("Gradient_o7lhd")
+noise = SubResource("FastNoiseLite_7qmxv")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_o83v2")
+shader_parameter/texture_low = SubResource("NoiseTexture2D_4ns32")
+shader_parameter/texture_mid = SubResource("NoiseTexture2D_2453d")
+shader_parameter/texture_hi = SubResource("NoiseTexture2D_gqaqp")
+shader_parameter/texture_scale = 5.7
+shader_parameter/emission_gradient = SubResource("GradientTexture1D_k1v75")
+shader_parameter/emission_color = Color(0.992157, 0.576471, 0, 1)
+shader_parameter/scale = 24.1
+shader_parameter/val = 0.33
+shader_parameter/speed = 1.0

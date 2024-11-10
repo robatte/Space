@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcha1seqrj4cx"]
+
+[ext_resource type="PackedScene" uid="uid://b30qak4sdc0a3" path="res://Assets/Pickle/Pickle_uishdjrva_Mid.gltf" id="1_uhn5q"]
+[ext_resource type="ArrayMesh" uid="uid://ca5x5ipnp0p2q" path="res://Assets/Pickle/new_array_mesh.tres" id="2_te4m3"]
+
+[node name="Sketchfab_Scene" instance=ExtResource("1_uhn5q")]
+
+[node name="uishdjrva_LOD0_TIER2_000_MatID_1_0" parent="Sketchfab_model/Pickle_uishdjrva_Mid_fbx/RootNode/uishdjrva_LOD0_TIER2_000" index="0"]
+mesh = ExtResource("2_te4m3")

@@ -1,0 +1,87 @@
+[gd_resource type="Shader" format=3 uid="uid://bwxkn4lk5hiii"]
+
+[resource]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.4.dev3's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_never, cull_back, diffuse_burley, specular_schlick_ggx, ambient_light_disabled, fog_disabled;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform sampler2D noise_texture_low;
+uniform sampler2D noise_texture_mid;
+uniform sampler2D noise_texture_hi;
+uniform float speed: hint_range(0.0, 1.0, 0.001) = 1.0;
+
+uniform sampler2D texture_emission : source_color, hint_default_black, filter_linear_mipmap, repeat_enable;
+uniform vec4 emission : source_color;
+uniform float emission_energy : hint_range(0.0, 100.0, 0.01);
+
+uniform float rim : hint_range(0.0, 3.0, 0.01);
+uniform float rim_tint : hint_range(0.0, 1.0, 0.01);
+uniform sampler2D texture_rim : hint_default_white, filter_linear_mipmap, repeat_enable;
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	//UV = UV * uv1_scale.xy + uv1_offset.xy;
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+	
+	vec2 uv1 = vec2(UV.x + TIME * speed, UV.y);
+	vec2 uv2 = vec2(UV.x - TIME * speed, UV.y - TIME * speed);
+	vec2 uv3 = vec2(UV.x, UV.y + TIME * speed);
+
+	float noise_low = 1.0;
+	float noise_mid = 1.0;
+	float noise_hi = 1.0;
+
+	noise_low = texture(noise_texture_low, uv1).r;
+	noise_mid = texture(noise_texture_mid, uv2).r;
+	noise_hi = texture(noise_texture_hi, uv3).r;
+
+	float noise = noise_low + noise_mid + noise_hi;
+	
+	//vec4 albedo_tex = texture(texture_albedo, base_uv);
+
+	// Vertex Color Use as Albedo: Enabled
+	//albedo_tex *= COLOR;
+
+	//ALBEDO = albedo.rgb * albedo_tex.rgb;
+	ALBEDO =  albedo.rgb * noise;
+//
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+//
+	vec4 roughness_texture_channel = vec4(1.0, 1.0, 1.0, 0.5);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness + (TIME * 0.0001);
+
+	// Emission: Enabled
+	//vec3 emission_tex = texture(texture_emission, base_uv).rgb;
+	// Emission Operator: Add
+	//EMISSION = vec3(new_alpha) * albedo.rgb * 9.0;
+	EMISSION = (emission.rgb + noise) * emission_energy;
+
+	// Rim: Enabled
+	vec2 rim_tex = texture(texture_rim, base_uv).xy;
+	RIM = rim * rim_tex.x + sin(TIME * 0.02);
+	RIM_TINT = rim_tint * rim_tex.y + sin(TIME * 0.0002);
+}
+"

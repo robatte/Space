@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqktsuamlxuk0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7cy7v"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_tthsw"]
+material = SubResource("ShaderMaterial_7cy7v")
+size = Vector3(100, 100, 100)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_tthsw")

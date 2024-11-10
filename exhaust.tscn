@@ -1,0 +1,182 @@
+[gd_scene load_steps=28 format=3 uid="uid://d2eaf0k0bn2sy"]
+
+[ext_resource type="Shader" path="res://Ship/Exhaust.gdshader" id="1_nct4d"]
+
+[sub_resource type="Curve" id="Curve_k3w4b"]
+_data = [Vector2(0.0411765, 0.715567), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_hxm2k"]
+curve = SubResource("Curve_k3w4b")
+
+[sub_resource type="Curve" id="Curve_ffeca"]
+max_value = 100.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_n6k21"]
+curve = SubResource("Curve_ffeca")
+
+[sub_resource type="Curve" id="Curve_hby0g"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.05962, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xaocg"]
+curve = SubResource("Curve_hby0g")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qhmkl"]
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 1000.0
+initial_velocity_max = 1200.0
+gravity = Vector3(0, 0, 0)
+damping_curve = SubResource("CurveTexture_n6k21")
+attractor_interaction_enabled = false
+scale_min = 0.0
+scale_max = 250.0
+scale_curve = SubResource("CurveTexture_xaocg")
+color = Color(0.2, 0.411765, 0.972549, 1)
+alpha_curve = SubResource("CurveTexture_hxm2k")
+hue_variation_min = -2.23517e-08
+hue_variation_max = -2.23517e-08
+turbulence_noise_speed = Vector3(0, 1, 0)
+turbulence_influence_min = 0.0
+
+[sub_resource type="Gradient" id="Gradient_ukhkx"]
+offsets = PackedFloat32Array(0.640523, 0.748366)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dy40h"]
+gradient = SubResource("Gradient_ukhkx")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w2e38"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+depth_draw_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.839216, 0.890196, 1, 1)
+albedo_texture = SubResource("GradientTexture2D_dy40h")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_5hvm8"]
+material = SubResource("StandardMaterial3D_w2e38")
+
+[sub_resource type="Curve" id="Curve_8k5hl"]
+_data = [Vector2(0.0283505, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0108695), -0.452532, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3jxom"]
+vertex_color_use_as_albedo = true
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_p00gs"]
+material = SubResource("StandardMaterial3D_3jxom")
+size = 31.952
+curve = SubResource("Curve_8k5hl")
+
+[sub_resource type="Gradient" id="Gradient_i8q1s"]
+resource_local_to_scene = true
+offsets = PackedFloat32Array(0.484568, 0.614198, 0.932099)
+colors = PackedColorArray(1, 0.0392157, 0, 1, 1, 0.67451, 0, 1, 1, 0.74902, 0.388235, 0.658824)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hyk6a"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_i8q1s")
+width = 128
+height = 128
+fill_from = Vector2(0.985755, 0.447293)
+fill_to = Vector2(0.025641, 0.754986)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k5iex"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_l4ten"]
+width = 256
+height = 256
+generate_mipmaps = false
+seamless = true
+noise = SubResource("FastNoiseLite_k5iex")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8fd6p"]
+render_priority = 0
+shader = ExtResource("1_nct4d")
+shader_parameter/noise = SubResource("NoiseTexture2D_l4ten")
+shader_parameter/gradient = SubResource("GradientTexture2D_hyk6a")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_kxc5w"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_8fd6p")
+top_radius = 100.0
+bottom_radius = 266.0
+height = 1200.0
+radial_segments = 32
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="Gradient" id="Gradient_5ggnl"]
+colors = PackedColorArray(0.0675366, 0.305353, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sxmqs"]
+gradient = SubResource("Gradient_5ggnl")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(1, 0.011396)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_furk7"]
+seed = 4
+frequency = 0.0042
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2b06m"]
+generate_mipmaps = false
+seamless = true
+noise = SubResource("FastNoiseLite_furk7")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cw0of"]
+render_priority = 0
+shader = ExtResource("1_nct4d")
+shader_parameter/noise = SubResource("NoiseTexture2D_2b06m")
+shader_parameter/gradient = SubResource("GradientTexture2D_sxmqs")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4l0qq"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_cw0of")
+top_radius = 80.0
+bottom_radius = 106.0
+height = 1200.0
+radial_segments = 32
+cap_top = false
+cap_bottom = false
+
+[node name="Exhaust" type="Node3D"]
+transform = Transform3D(1, -2.79397e-09, 7.68341e-09, 1.39698e-09, -5.96046e-08, 1, -5.58794e-09, -1, -8.9407e-08, 0, 0, 0)
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, -4.65661e-09, 7.68341e-09, 4.65661e-09, 1, 5.96046e-08, 1.86265e-09, 1.49012e-08, 1, 0.000244141, 63.8021, 0.648682)
+amount = 200
+randomness = 1.0
+local_coords = true
+draw_order = 3
+trail_enabled = true
+trail_lifetime = 1.45
+process_material = SubResource("ParticleProcessMaterial_qhmkl")
+draw_passes = 2
+draw_pass_1 = SubResource("QuadMesh_5hvm8")
+draw_pass_2 = SubResource("RibbonTrailMesh_p00gs")
+
+[node name="Exhaust_Outer" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, -1.86265e-09, 7.91624e-09, -9.31323e-10, 1, -2.98023e-08, -1.3737e-08, 1.49012e-08, 1, 0, 125.725, 0.00012207)
+visible = false
+mesh = SubResource("CylinderMesh_kxc5w")
+skeleton = NodePath("")
+
+[node name="Exhaust_Inner" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, -1.86265e-09, 7.91624e-09, -9.31323e-10, 1, -2.98023e-08, -1.3737e-08, 1.49012e-08, 1, -0.000244141, 618.824, 0.00012207)
+visible = false
+mesh = SubResource("CylinderMesh_4l0qq")
+skeleton = NodePath("")
